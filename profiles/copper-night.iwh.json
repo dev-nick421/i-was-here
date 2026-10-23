@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-copper-night",
+  "name": "Copper Night",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "poster",
+    "frame": "none",
+    "themeId": "copper",
+    "colors": {
+      "land": "#131313",
+      "water": "#252525",
+      "roads": "#c8935a",
+      "buildings": "#1d1d1d",
+      "parks": "#181818",
+      "paper": "#131313",
+      "textBox": "#131313",
+      "text": "#d9a86f",
+      "frame": "#c8935a"
+    },
+    "map": {
+      "detail": "high",
+      "roads": "standard",
+      "buildings": false,
+      "parks": false,
+      "water": true,
+      "rail": false,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "poster",
+      "size": "l",
+      "uppercase": true,
+      "coordFormat": "dms"
+    },
+    "output": {
+      "paper": "60x80",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "print300",
+      "fileType": "png",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

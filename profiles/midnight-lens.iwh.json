@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-midnight-lens",
+  "name": "Midnight Lens",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "halo",
+    "frame": "double",
+    "themeId": "midnight",
+    "colors": {
+      "land": "#1b2a41",
+      "water": "#101b2c",
+      "roads": "#e9eef5",
+      "buildings": "#243753",
+      "parks": "#1f3149",
+      "paper": "#1b2a41",
+      "textBox": "#1b2a41",
+      "text": "#e9eef5",
+      "frame": "#e9eef5"
+    },
+    "map": {
+      "detail": "medium",
+      "roads": "standard",
+      "buildings": true,
+      "parks": false,
+      "water": true,
+      "rail": false,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "elegant",
+      "size": "m",
+      "uppercase": true,
+      "coordFormat": "dms"
+    },
+    "output": {
+      "paper": "50x70",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "print300",
+      "fileType": "png",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

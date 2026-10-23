@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-vintage-love",
+  "name": "Vintage Love",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "classic",
+    "frame": "line",
+    "themeId": "vintage",
+    "colors": {
+      "land": "#f1e6d6",
+      "water": "#bdd2d0",
+      "roads": "#b5402e",
+      "buildings": "#e7d7c1",
+      "parks": "#e2e1c6",
+      "paper": "#f1e6d6",
+      "textBox": "#f1e6d6",
+      "text": "#6d281d",
+      "frame": "#b5402e"
+    },
+    "map": {
+      "detail": "medium",
+      "roads": "standard",
+      "buildings": true,
+      "parks": true,
+      "water": true,
+      "rail": false,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "signature",
+      "size": "m",
+      "uppercase": true,
+      "coordFormat": "dms"
+    },
+    "output": {
+      "paper": "30x40",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "4k",
+      "fileType": "png",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

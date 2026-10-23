@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-blueprint",
+  "name": "Blueprint",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "architect",
+    "frame": "none",
+    "themeId": "blueprint",
+    "colors": {
+      "land": "#1d4e89",
+      "water": "#153c6a",
+      "roads": "#dce9f7",
+      "buildings": "#285a97",
+      "parks": "#205391",
+      "paper": "#1d4e89",
+      "textBox": "#1d4e89",
+      "text": "#dce9f7",
+      "frame": "#dce9f7"
+    },
+    "map": {
+      "detail": "medium",
+      "roads": "all",
+      "buildings": true,
+      "parks": false,
+      "water": true,
+      "rail": true,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "technical",
+      "size": "m",
+      "uppercase": true,
+      "coordFormat": "decimal"
+    },
+    "output": {
+      "paper": "a2",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "print300",
+      "fileType": "pdf",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

@@ -1,0 +1,14 @@
+<div id="iwh-loading" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background-color:#e2ddd2;background-image:radial-gradient(rgba(40,34,26,.16) 1px,transparent 1.3px);background-size:18px 18px;font-family:ui-monospace,monospace">
+  <style>
+    @media (prefers-color-scheme: dark) { #iwh-loading { background-color:#0f0e0c !important; background-image:radial-gradient(rgba(255,240,220,.08) 1px,transparent 1.3px) !important } #iwh-loading p { color:#847d70 !important } }
+    @keyframes iwh-stamp { 0% { transform: scale(1.25) rotate(-14deg); opacity: 0 } 40% { transform: scale(.94) rotate(-8deg); opacity: 1 } 60%,100% { transform: scale(1) rotate(-8deg); opacity: 1 } }
+  </style>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+    <svg width="52" height="52" viewBox="0 0 36 36" style="animation:iwh-stamp 1.6s cubic-bezier(.22,1,.36,1) infinite alternate" aria-hidden="true">
+      <circle cx="18" cy="18" r="16.25" fill="#e2502a" stroke="#1b1915" stroke-width="1.5"/>
+      <circle cx="18" cy="18" r="12.6" fill="none" stroke="#fff" stroke-width="1.1" stroke-dasharray="1.4 2.1"/>
+      <path d="M18 9.6c-3.2 0-5.7 2.5-5.7 5.6 0 4.2 5.7 10 5.7 10s5.7-5.8 5.7-10c0-3.1-2.5-5.6-5.7-5.6Zm0 8a2.3 2.3 0 1 1 0-4.7 2.3 2.3 0 0 1 0 4.7Z" fill="#fff" fill-rule="evenodd"/>
+    </svg>
+    <p style="margin:0;font-size:11px;color:#8d8678;letter-spacing:.18em;text-transform:uppercase">I Was Here</p>
+  </div>
+</div>

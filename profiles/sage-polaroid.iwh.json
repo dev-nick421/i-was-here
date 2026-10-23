@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-sage-polaroid",
+  "name": "Sage Polaroid",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "square",
+    "frame": "margin",
+    "themeId": "sage",
+    "colors": {
+      "land": "#dfe6d8",
+      "water": "#9db6b2",
+      "roads": "#3c4c41",
+      "buildings": "#d0dac8",
+      "parks": "#ccdac0",
+      "paper": "#eff3eb",
+      "textBox": "#eff3eb",
+      "text": "#2d3a31",
+      "frame": "#3c4c41"
+    },
+    "map": {
+      "detail": "medium",
+      "roads": "standard",
+      "buildings": true,
+      "parks": true,
+      "water": true,
+      "rail": false,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "editorial",
+      "size": "m",
+      "uppercase": true,
+      "coordFormat": "dms"
+    },
+    "output": {
+      "paper": "50x50",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "print300",
+      "fileType": "png",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

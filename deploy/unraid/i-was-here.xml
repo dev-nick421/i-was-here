@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>i-was-here</Name>
+  <Repository>ghcr.io/dev-nick421/i-was-here:latest</Repository>
+  <Registry>https://github.com/dev-nick421/i-was-here/pkgs/container/i-was-here</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/dev-nick421/i-was-here/issues</Support>
+  <Project>https://github.com/dev-nick421/i-was-here</Project>
+  <Overview>Design minimalist map posters of any place on earth and download them as print-ready PNG, JPEG or PDF files (up to 8K or 300 DPI). Pick a place, a palette and a typeface, add a title, done. Runs in your browser, no account, no tracking, works on phones and can be installed as an app.</Overview>
+  <Category>Productivity: Tools: Other:</Category>
+  <WebUI>http://[IP]:[PORT:3000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/dev-nick421/i-was-here/main/deploy/unraid/i-was-here.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/dev-nick421/i-was-here/main/public/icons/icon-512.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="Web UI port" Target="3000" Default="3000" Mode="tcp" Description="Port of the editor on your server, e.g. 9945 opens it at http://your-server:9945" Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="Place search" Target="NUXT_GEOCODER_PROVIDER" Default="photon|nominatim" Mode="" Description="photon (search as you type) or nominatim" Type="Variable" Display="advanced" Required="false" Mask="false">photon</Config>
+  <Config Name="Own geocoder URL" Target="NUXT_GEOCODER_URL" Default="" Mode="" Description="Optional: a self-hosted Photon or Nominatim, e.g. http://192.168.1.10:2322/api" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Contact e-mail for Nominatim" Target="NUXT_GEOCODER_EMAIL" Default="" Mode="" Description="Optional: sent to Nominatim as its usage policy asks" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Map tiles (TileJSON URL)" Target="NUXT_PUBLIC_MAP_TILES_URL" Default="https://tiles.openfreemap.org/planet" Mode="" Description="Vector tiles in the OpenMapTiles schema. The default (OpenFreeMap) is free and needs no key." Type="Variable" Display="advanced" Required="false" Mask="false">https://tiles.openfreemap.org/planet</Config>
+  <Config Name="Map fonts (glyphs URL)" Target="NUXT_PUBLIC_MAP_GLYPHS_URL" Default="https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf" Mode="" Description="Only used for the optional district names on the map" Type="Variable" Display="advanced" Required="false" Mask="false">https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf</Config>
+</Container>

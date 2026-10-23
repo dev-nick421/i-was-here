@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "app": "i-was-here",
+  "kind": "profile",
+  "version": 1,
+  "id": "example-ticket-classic",
+  "name": "Ticket Classic",
+  "createdAt": "2026-10-20T00:00:00.000Z",
+  "updatedAt": "2026-10-20T00:00:00.000Z",
+  "style": {
+    "layout": "card",
+    "frame": "none",
+    "themeId": "classic",
+    "colors": {
+      "land": "#ffffff",
+      "water": "#a8c5df",
+      "roads": "#111111",
+      "buildings": "#e4e4e4",
+      "parks": "#eef1ea",
+      "paper": "#ffffff",
+      "textBox": "#ffffff",
+      "text": "#111111",
+      "frame": "#111111"
+    },
+    "map": {
+      "detail": "medium",
+      "roads": "standard",
+      "buildings": true,
+      "parks": false,
+      "water": true,
+      "rail": false,
+      "labels": false,
+      "lineWidth": 1
+    },
+    "typography": {
+      "font": "regular",
+      "size": "m",
+      "uppercase": true,
+      "coordFormat": "dms"
+    },
+    "output": {
+      "paper": "30x40",
+      "customWidthCm": 40,
+      "customHeightCm": 50,
+      "orientation": "portrait",
+      "resolution": "4k",
+      "fileType": "png",
+      "jpegQuality": 0.92
+    },
+    "attribution": true
+  }
+}

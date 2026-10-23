@@ -1,0 +1,17 @@
+# I Was Here: `docker compose up -d`, then open http://localhost:3000
+#
+# This file is all you need. Optional settings go into a `.env` file next to it
+# (see .env.example), for example `PORT=8080` to use another port on your machine.
+services:
+  i-was-here:
+    image: ghcr.io/dev-nick421/i-was-here:latest
+    container_name: i-was-here
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Inside the container the app always listens on 3000 (PORT in .env is the port on your machine).
+      PORT: "3000"
