@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/dev-nick421/i-was-here/main/docs/profile.schema.json",
+  "title": "I Was Here profile",
+  "description": "A profile file (*.iwh.json) of I Was Here: one profile, or several in a bundle. Importing is forgiving: unknown keys are ignored, missing or invalid values fall back to defaults and numbers are clamped.",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "app": { "const": "i-was-here" },
+    "kind": { "enum": ["profile", "profile-bundle"] },
+    "version": {
+      "description": "Format version. Files from a newer version of the app are rejected.",
+      "const": 1
+    }
+  },
+  "if": {
+    "properties": { "kind": { "const": "profile-bundle" } },
+    "required": ["kind"]
+  },
+  "then": {
+    "properties": {
+      "exportedAt": { "type": "string", "format": "date-time" },
+      "profiles": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "$ref": "#/$defs/profile" }
+      }
+    },
+    "required": ["profiles"]
+  },
+  "else": { "$ref": "#/$defs/profile" },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "profile" },
+        "id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "style": { "$ref": "#/$defs/style" },
+        "content": { "$ref": "#/$defs/content" }
+      }
+    },
+    "color": {
+      "description": "Hex color. The app writes lowercase #rrggbb.",
+      "type": "string",
+      "pattern": "^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+    },
+    "style": {
+      "description": "The look of a poster.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "layout": {
+          "description": "card (Ticket), classic (Atlas), poster (Horizon), halo (Lens), square (Polaroid), architect (Label), banner (Ribbon), mapOnly (Pure)",
+          "enum": ["card", "classic", "poster", "halo", "square", "architect", "banner", "mapOnly"]
+        },
+        "frame": {
+          "description": "none, margin (Mat), line, double",
+          "enum": ["none", "margin", "line", "double"]
+        },
+        "themeId": {
+          "description": "Id of the palette the colors came from (e.g. \"midnight\"), or \"custom\". Missing colors are taken from this palette.",
+          "type": "string",
+          "maxLength": 40
+        },
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "land": { "$ref": "#/$defs/color" },
+            "water": { "$ref": "#/$defs/color" },
+            "roads": { "$ref": "#/$defs/color" },
+            "buildings": { "$ref": "#/$defs/color" },
+            "parks": { "$ref": "#/$defs/color" },
+            "paper": { "$ref": "#/$defs/color" },
+            "textBox": { "$ref": "#/$defs/color" },
+            "text": { "$ref": "#/$defs/color" },
+            "frame": { "$ref": "#/$defs/color" }
+          }
+        },
+        "map": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "detail": { "enum": ["low", "medium", "high"] },
+            "roads": { "enum": ["major", "standard", "all"] },
+            "buildings": { "type": "boolean" },
+            "parks": { "type": "boolean" },
+            "water": { "type": "boolean" },
+            "rail": { "type": "boolean" },
+            "labels": { "description": "District names", "type": "boolean" },
+            "lineWidth": { "description": "Multiplier for all line widths", "type": "number", "minimum": 0.4, "maximum": 2.5 }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "font": {
+              "description": "regular (Grotesk), modern (Geometric), classic (Didone), elegant (Garamond), signature (Script), playful (Rounded), poster (Condensed), vintage (Deco), editorial (Editorial), technical (Mono)",
+              "enum": ["regular", "modern", "classic", "elegant", "signature", "playful", "poster", "vintage", "editorial", "technical"]
+            },
+            "size": { "enum": ["s", "m", "l"] },
+            "uppercase": { "description": "Title in capitals (ignored for script fonts)", "type": "boolean" },
+            "coordFormat": { "description": "dms 53°33′11″, dm 53°33.18′, decimal 53.5531°", "enum": ["dms", "dm", "decimal"] }
+          }
+        },
+        "output": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "paper": {
+              "enum": ["30x40", "45x60", "50x70", "60x80", "70x100", "a4", "a3", "a2", "a1", "30x30", "50x50", "custom"]
+            },
+            "customWidthCm": { "description": "Only used when paper is \"custom\"", "type": "number", "minimum": 5, "maximum": 300 },
+            "customHeightCm": { "description": "Only used when paper is \"custom\"", "type": "number", "minimum": 5, "maximum": 300 },
+            "orientation": { "enum": ["portrait", "landscape"] },
+            "resolution": {
+              "description": "hd (1920 px), wqhd (2560 px), 4k (3840 px), 8k (7680 px) on the long edge, or print150 / print300 DPI",
+              "enum": ["hd", "wqhd", "4k", "8k", "print150", "print300"]
+            },
+            "fileType": { "enum": ["png", "jpeg", "pdf"] },
+            "jpegQuality": { "type": "number", "minimum": 0.5, "maximum": 1 }
+          }
+        },
+        "attribution": { "description": "Print the OpenStreetMap credit on the poster", "type": "boolean" }
+      }
+    },
+    "content": {
+      "description": "Optional: the place and text of one poster.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "view": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lng": { "type": "number", "minimum": -180, "maximum": 180 },
+            "lat": { "type": "number", "minimum": -85.051129, "maximum": 85.051129 },
+            "zoom": { "type": "number", "minimum": 0, "maximum": 20 },
+            "bearing": { "type": "number", "minimum": -180, "maximum": 180 }
+          }
+        },
+        "text": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": { "type": "string", "maxLength": 200 },
+            "subtitle": { "type": "string", "maxLength": 200 },
+            "showTitle": { "type": "boolean" },
+            "showSubtitle": { "type": "boolean" },
+            "showCoords": { "type": "boolean" },
+            "coordsMode": { "enum": ["auto", "custom"] },
+            "coordsCustom": { "type": "string", "maxLength": 200 }
+          }
+        },
+        "place": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": { "type": "string", "maxLength": 120 },
+                "country": { "type": "string", "maxLength": 120 },
+                "countryCode": { "type": "string", "maxLength": 8 }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
