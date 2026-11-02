@@ -8,8 +8,12 @@
  * - Map: vector tiles and glyphs are cached as you look at places (cache-first, capped);
  *   TileJSON and other map metadata are network-first. Places you've seen work offline.
  * - Updates: a new version waits until the page asks it to take over (app/composables/usePwa.ts).
+ *
+ * The app may be served under a sub-path (e.g. /i-was-here/ on GitHub Pages), so every path is
+ * relative to the worker's scope, which is the app's base URL.
  */
 const { version: VERSION, precache: PRECACHE } = self.__IWH_BUILD
+const BASE = new URL(self.registration.scope).pathname
 
 const SHELL_CACHE = `iwh-shell-${VERSION}`
 const ASSET_CACHE = 'iwh-assets'
@@ -18,23 +22,24 @@ const META_CACHE = 'iwh-map-meta'
 const LIMITS = { [ASSET_CACHE]: 300, [TILE_CACHE]: 4000, [META_CACHE]: 50 }
 const PAGE_TIMEOUT_MS = 4000
 
-const PRECACHED = new Set(PRECACHE)
-const isHashed = path => path.startsWith('/_nuxt/') && !path.startsWith('/_nuxt/builds/latest')
+const PRECACHE_PATHS = PRECACHE.map(path => BASE + path)
+const PRECACHED = new Set(PRECACHE_PATHS)
+const isHashed = path => path.startsWith(`${BASE}_nuxt/`) && !path.startsWith(`${BASE}_nuxt/builds/latest`)
 const isTile = url => /\.(?:pbf|mvt)$/i.test(url.pathname) || /\/\d+\/\d+\/\d+(?:@\dx)?(?:\.\w+)?$/.test(url.pathname)
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(SHELL_CACHE)
-    await Promise.all(PRECACHE.map(async (path) => {
+    await Promise.all(PRECACHE_PATHS.map(async (path) => {
       // Hashed files never change: reuse them from the previous version instead of downloading them again.
       const previous = isHashed(path) ? await caches.match(path, { ignoreVary: true }) : undefined
       const response = previous ?? await fetch(new Request(path, { cache: 'reload' }))
       if (!response.ok) throw new Error(`Could not precache ${path} (${response.status})`)
       await cache.put(path, response)
     }))
-    const page = await fetch(new Request('/', { cache: 'reload' }))
+    const page = await fetch(new Request(BASE, { cache: 'reload' }))
     if (!page.ok) throw new Error(`Could not precache the page (${page.status})`)
-    await cache.put('/', page)
+    await cache.put(BASE, page)
   })())
 })
 
@@ -59,8 +64,8 @@ self.addEventListener('fetch', (event) => {
 
   if (url.origin === self.location.origin) {
     if (request.mode === 'navigate') event.respondWith(page(event))
-    else if (url.pathname.startsWith('/api/') || url.pathname === '/sw.js' || url.pathname.startsWith('/_nuxt/builds/latest')) return
-    else if (url.pathname.startsWith('/_nuxt/') || PRECACHED.has(url.pathname)) event.respondWith(cacheFirst(event, ASSET_CACHE))
+    else if (url.pathname.startsWith(`${BASE}api/`) || url.pathname === `${BASE}sw.js` || url.pathname.startsWith(`${BASE}_nuxt/builds/latest`)) return
+    else if (url.pathname.startsWith(`${BASE}_nuxt/`) || PRECACHED.has(url.pathname)) event.respondWith(cacheFirst(event, ASSET_CACHE))
     else if (isTile(url)) event.respondWith(cacheFirst(event, TILE_CACHE))
     return
   }
@@ -75,8 +80,8 @@ async function page(event) {
   const cache = await caches.open(SHELL_CACHE)
   const network = fetch(event.request).then((response) => {
     const html = response.headers.get('content-type')?.includes('text/html')
-    if (response.ok && html && new URL(event.request.url).pathname === '/') {
-      event.waitUntil(cache.put('/', response.clone()).catch(() => {}))
+    if (response.ok && html && new URL(event.request.url).pathname === BASE) {
+      event.waitUntil(cache.put(BASE, response.clone()).catch(() => {}))
     }
     return response
   })
@@ -84,7 +89,7 @@ async function page(event) {
   try {
     return await withTimeout(network, PAGE_TIMEOUT_MS)
   } catch {
-    return (await cache.match('/')) ?? network
+    return (await cache.match(BASE)) ?? network
   }
 }
 

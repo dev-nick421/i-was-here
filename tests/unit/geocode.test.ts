@@ -1,6 +1,21 @@
 import { describe, expect, it } from 'vitest'
 import { subtitleForPlace, zoomForPlace } from '~/core/fit'
-import { normalizeNominatim, normalizePhoton } from '../../server/utils/geocoders'
+import { normalizePhoton, photonSearchUrl } from '#shared/geocoding'
+import { normalizeNominatim } from '../../server/utils/geocoders'
+
+describe('photonSearchUrl', () => {
+  it('asks for a few extra results and passes supported languages', () => {
+    const url = new URL(photonSearchUrl('', { q: 'Hamburg', lang: 'de', limit: 7 }))
+    expect(url.origin + url.pathname).toBe('https://photon.komoot.io/api/')
+    expect(Object.fromEntries(url.searchParams)).toEqual({ q: 'Hamburg', limit: '10', lang: 'de' })
+  })
+
+  it('keeps the path of a self-hosted instance and skips other languages', () => {
+    const url = new URL(photonSearchUrl('http://localhost:2322/api', { q: 'Paris', lang: 'es', limit: 5 }))
+    expect(url.origin + url.pathname).toBe('http://localhost:2322/api')
+    expect(url.searchParams.has('lang')).toBe(false)
+  })
+})
 
 describe('normalizePhoton', () => {
   it('maps cities, districts, streets and POIs', () => {

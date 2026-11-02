@@ -1,5 +1,8 @@
 import tailwindcss from '@tailwindcss/vite'
 
+// The path the app is served under, e.g. `/i-was-here/` on GitHub Pages (set at build time).
+const baseURL = process.env.NUXT_APP_BASE_URL || '/'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -12,6 +15,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   app: {
+    baseURL,
     head: {
       htmlAttrs: { lang: 'en' },
       title: 'I Was Here: map poster maker',
@@ -33,14 +37,14 @@ export default defineNuxtConfig({
           content: 'Design minimalist map posters of any place and export them in print quality.',
         },
         { property: 'og:type', content: 'website' },
-        { property: 'og:image', content: '/og.jpg' },
+        { property: 'og:image', content: `${baseURL}og.jpg` },
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/manifest.webmanifest' },
+        { rel: 'icon', href: `${baseURL}favicon.ico`, sizes: '32x32' },
+        { rel: 'icon', type: 'image/svg+xml', href: `${baseURL}favicon.svg` },
+        { rel: 'apple-touch-icon', href: `${baseURL}icons/apple-touch-icon.png` },
+        { rel: 'manifest', href: `${baseURL}manifest.webmanifest` },
       ],
     },
   },
@@ -68,6 +72,9 @@ export default defineNuxtConfig({
         providerName: 'OpenFreeMap',
         providerUrl: 'https://openfreemap.org',
       },
+      // Static builds (GitHub Pages) have no server for /api/geocode: when set, the browser
+      // searches this Photon instance directly, e.g. https://photon.komoot.io/api/
+      photonUrl: '',
       repoUrl: 'https://github.com/dev-nick421/i-was-here',
     },
   },

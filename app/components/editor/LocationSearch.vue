@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Building2, LoaderCircle, LocateFixed, MapPin, Search, X } from '@lucide/vue'
+import { normalizePhoton, type PhotonFeature, photonSearchUrl } from '#shared/geocoding'
 import type { GeocodeResponse, GeocodeResult } from '#shared/types/geocode'
 
 const props = withDefaults(defineProps<{ compact?: boolean }>(), { compact: false })
@@ -10,6 +11,7 @@ const { t, locale } = useI18n()
 const { push } = useToasts()
 const { isDesktop } = useBreakpoint()
 const { online } = usePwa()
+const config = useRuntimeConfig()
 
 const query = ref('')
 const results = ref<GeocodeResult[]>([])
@@ -24,6 +26,17 @@ const listId = useId()
 let controller: AbortController | null = null
 let timer: ReturnType<typeof setTimeout> | undefined
 
+/** Through the app's own server, or straight to Photon in static builds (no server). */
+async function fetchPlaces(q: string, signal: AbortSignal): Promise<GeocodeResult[]> {
+  const query = { q, lang: locale.value, limit: 7 }
+  const photonUrl = config.public.photonUrl as string
+  if (photonUrl) {
+    const data = await $fetch<{ features?: PhotonFeature[] }>(photonSearchUrl(photonUrl, query), { signal })
+    return normalizePhoton(data.features ?? []).slice(0, query.limit)
+  }
+  return (await $fetch<GeocodeResponse>('/api/geocode', { query, signal })).results
+}
+
 async function search(q: string) {
   controller?.abort()
   if (q.trim().length < 2) {
@@ -35,12 +48,8 @@ async function search(q: string) {
   loading.value = true
   error.value = false
   try {
-    const res = await $fetch<GeocodeResponse>('/api/geocode', {
-      query: { q: q.trim(), lang: locale.value, limit: 7 },
-      signal: controller.signal,
-    })
-    results.value = res.results
-    active.value = res.results.length ? 0 : -1
+    results.value = await fetchPlaces(q.trim(), controller.signal)
+    active.value = results.value.length ? 0 : -1
   } catch (e) {
     if ((e as Error).name === 'AbortError') return
     error.value = true

@@ -27,7 +27,7 @@ const host = typeof window === 'undefined' ? '' : window.location.host
     >
       <div class="flex items-center gap-4 rounded-xl border border-dashed border-line-strong bg-surface-2 p-3.5">
         <img
-          src="/icons/apple-touch-icon.png"
+          :src="`${config.app.baseURL}icons/apple-touch-icon.png`"
           alt=""
           class="size-14 shrink-0 rounded-[14px] border border-ink"
         >

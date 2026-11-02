@@ -45,10 +45,10 @@ function workerVersion(worker: ServiceWorker): Promise<string | null> {
   })
 }
 
-async function registerWorker(buildId: string, warm: string[]) {
+async function registerWorker(buildId: string, base: string, warm: string[]) {
   if (!('serviceWorker' in navigator) || !window.isSecureContext) return
   const firstVisit = !navigator.serviceWorker.controller
-  const registration = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' })
+  const registration = await navigator.serviceWorker.register(`${base}sw.js`, { scope: base, updateViaCache: 'none' })
 
   // On the first visit the map metadata loaded before the worker was there to keep a copy:
   // fetch it once more through the worker so the map also starts offline next time.
@@ -93,9 +93,10 @@ async function registerWorker(buildId: string, warm: string[]) {
 }
 
 /**
+ * @param base The app's base URL (`/`, or a sub-path like `/i-was-here/`), the worker's scope.
  * @param warm URLs the service worker should keep from the first visit on (the TileJSON).
  */
-export function startPwa(buildId: string, { serviceWorker = true, warm = [] as string[] } = {}) {
+export function startPwa(buildId: string, { serviceWorker = true, base = '/', warm = [] as string[] } = {}) {
   const displayMode = window.matchMedia('(display-mode: standalone)')
   const updateStandalone = () => {
     standalone.value = displayMode.matches || (navigator as { standalone?: boolean }).standalone === true
@@ -119,7 +120,7 @@ export function startPwa(buildId: string, { serviceWorker = true, warm = [] as s
   })
 
   if (serviceWorker) {
-    registerWorker(buildId, warm).catch(err => console.warn('Service worker registration failed', err))
+    registerWorker(buildId, base, warm).catch(err => console.warn('Service worker registration failed', err))
   }
 }
 

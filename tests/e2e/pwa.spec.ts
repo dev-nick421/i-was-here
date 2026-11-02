@@ -9,20 +9,25 @@ test.describe('app (PWA)', () => {
   test('is installable: manifest, icons and a service worker', async ({ page, request }) => {
     await openEditor(page)
     const href = await page.locator('link[rel="manifest"]').getAttribute('href')
-    const res = await request.get(href!)
+    const manifestUrl = new URL(href!, page.url())
+    const res = await request.get(manifestUrl.href)
     expect(res.headers()['content-type']).toContain('application/manifest+json')
     const manifest = await res.json()
-    expect(manifest).toMatchObject({ id: '/', start_url: '/', scope: '/', display: 'standalone', short_name: 'I Was Here' })
+    expect(manifest).toMatchObject({ display: 'standalone', short_name: 'I Was Here' })
+    // URLs are relative to the manifest, so the same file works under a sub-path (GitHub Pages).
+    expect(new URL(manifest.start_url, manifestUrl).pathname).toBe('/')
+    expect(new URL(manifest.scope, manifestUrl).pathname).toBe('/')
+    const resolve = (src: string) => new URL(src, manifestUrl).href
 
     // Every icon exists in the size it claims; there is a maskable one for home screens.
     for (const icon of manifest.icons.filter((i: { type: string }) => i.type === 'image/png')) {
-      const png = await request.get(icon.src)
+      const png = await request.get(resolve(icon.src))
       expect(png.ok(), icon.src).toBe(true)
       const { width, height } = pngInfo(Buffer.from(await png.body()))
       expect(`${width}x${height}`).toBe(icon.sizes)
     }
     expect(manifest.icons.some((i: { purpose: string }) => i.purpose === 'maskable')).toBe(true)
-    for (const shot of manifest.screenshots) expect((await request.get(shot.src)).ok(), shot.src).toBe(true)
+    for (const shot of manifest.screenshots) expect((await request.get(resolve(shot.src))).ok(), shot.src).toBe(true)
 
     await waitForServiceWorker(page)
     const cached = await page.evaluate(async () => {

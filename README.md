@@ -14,6 +14,8 @@
 Search for a city, pick a look, give it a title and download a print-ready file. Print it at home, send it to a
 print shop, put it on a T-shirt. It's yours, and it's free.
 
+**[Try it in your browser](https://dev-nick421.github.io/i-was-here/)**, or [run your own](#install).
+
 ## What you get
 
 - **Any place on earth**, drawn from OpenStreetMap

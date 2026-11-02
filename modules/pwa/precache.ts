@@ -2,7 +2,8 @@
  * Which built files the service worker downloads up front, so the editor starts offline.
  *
  * Everything else (other font scripts, images, …) is cached the first time it's used.
- * Paths are relative to the public output directory and use forward slashes.
+ * Paths are relative to the public output directory and use forward slashes. They stay relative
+ * (no leading slash) because the app may be served under a sub-path; the worker adds its scope.
  */
 export function precachePaths(files: string[]): string[] {
   return files
@@ -16,6 +17,5 @@ export function precachePaths(files: string[]): string[] {
       }
       return ['favicon.svg', 'favicon.ico', 'manifest.webmanifest', 'icons/apple-touch-icon.png'].includes(file)
     })
-    .map(file => `/${file}`)
     .sort()
 }

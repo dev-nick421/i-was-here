@@ -9,6 +9,7 @@ something doesn't work.
 - [Map tiles](#map-tiles)
 - [Place search](#place-search)
 - [Building the image yourself](#building-the-image-yourself)
+- [Static hosting (GitHub Pages)](#static-hosting-github-pages)
 - [Troubleshooting](#troubleshooting)
 
 ## Settings
@@ -85,7 +86,31 @@ Behind a TLS-intercepting proxy, pass its CA bundle as a build secret:
 docker build --secret id=ca,src=/path/to/ca.pem .
 ```
 
+## Static hosting (GitHub Pages)
+
+The editor runs entirely in the browser, so it also works as plain files on any static host.
+That's how the [live version](https://dev-nick421.github.io/i-was-here/) is published: the
+[`pages.yml`](../.github/workflows/pages.yml) workflow builds and deploys it on every push to
+`main`. To use it in a fork, set **Settings → Pages → Source** to *GitHub Actions*.
+
+To build it yourself:
+
+```bash
+NUXT_APP_BASE_URL=/i-was-here/ \
+NUXT_PUBLIC_PHOTON_URL=https://photon.komoot.io/api/ \
+pnpm generate   # → .output/public
+```
+
+Compared with the Docker image:
+
+- **Settings are read at build time.** `NUXT_PUBLIC_MAP_*` work as above; set them when you
+  build. `NUXT_APP_BASE_URL` is the path the files are served under (`/` at the root of a domain).
+- **Place search goes straight from the browser to Photon** (`NUXT_PUBLIC_PHOTON_URL`), because
+  there's no server for `/api/geocode`. There's no shared cache or rate limit, and Nominatim
+  isn't supported: its public server doesn't allow search as you type.
+
 ## Troubleshooting
+
 
 - **The map stays empty.** The browser can't reach the tile server. Check
   `NUXT_PUBLIC_MAP_TILES_URL` and whether the device you're on can open that URL. The editor

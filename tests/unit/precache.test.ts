@@ -24,16 +24,16 @@ describe('precachePaths', () => {
       'sw.js',
     ]
     expect(precachePaths(files)).toEqual([
-      '/_nuxt/Iwh6fSQR.js',
-      '/_nuxt/builds/meta/1234.json',
-      '/_nuxt/entry.abc.css',
-      '/_nuxt/inter-latin-ext-wght-normal.b.woff2',
-      '/_nuxt/inter-latin-wght-normal.a.woff2',
-      '/_nuxt/maplibre-gl-worker.x.mjs',
-      '/favicon.ico',
-      '/favicon.svg',
-      '/icons/apple-touch-icon.png',
-      '/manifest.webmanifest',
+      '_nuxt/Iwh6fSQR.js',
+      '_nuxt/builds/meta/1234.json',
+      '_nuxt/entry.abc.css',
+      '_nuxt/inter-latin-ext-wght-normal.b.woff2',
+      '_nuxt/inter-latin-wght-normal.a.woff2',
+      '_nuxt/maplibre-gl-worker.x.mjs',
+      'favicon.ico',
+      'favicon.svg',
+      'icons/apple-touch-icon.png',
+      'manifest.webmanifest',
     ])
   })
 })

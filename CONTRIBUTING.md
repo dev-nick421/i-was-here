@@ -76,6 +76,7 @@ app/
   i18n/        English and German messages
 modules/pwa/   build step that generates the service worker
 server/        Nitro API: /api/geocode, /api/health
+shared/        code used by both the server and the browser (geocoding)
 deploy/        Unraid template
 profiles/      example profiles
 tests/         Vitest unit tests, Playwright e2e tests, offline fixture tile server
