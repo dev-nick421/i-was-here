@@ -70,7 +70,7 @@ geocoder, tidies up the answers and caches them for a day.
 - With [Nominatim](https://nominatim.org), requests are throttled to one per second, as its
   [usage policy](https://operations.osmfoundation.org/policies/nominatim/) asks.
 
-## Building the image
+## Building the image yourself
 
 ```bash
 git clone https://github.com/dev-nick421/i-was-here.git
@@ -80,7 +80,9 @@ docker compose up -d   # uses the image you just built
 ```
 
 Behind a TLS-intercepting proxy, pass its CA bundle as a build secret:
-`docker build --secret id=ca,src=/path/to/ca.pem .`
+
+```bash
+docker build --secret id=ca,src=/path/to/ca.pem .
 ```
 
 ## Troubleshooting
